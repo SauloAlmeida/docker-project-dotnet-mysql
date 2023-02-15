@@ -11,6 +11,8 @@ InfraPersistence.Setup(builder);
 
 var app = builder.Build();
 
+app.MapGet("/api", () => Results.Ok("Hello!"));
+
 app.MapGet("/api/password", async (GetConnection conn) =>
 {
     var dbConn = await conn();
@@ -26,7 +28,6 @@ app.MapPost("/api/password", async (GetConnection conn, [FromBody] PasswordInput
 
     return Results.NoContent();
 });
-
 
 app.Run();
 
