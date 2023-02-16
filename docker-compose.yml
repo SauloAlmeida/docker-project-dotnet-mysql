@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  db: 
+    build: ./Database
+    ports: 
+      - "3306:3306"
+    networks:
+      - api-db
+
+  api:
+    build: ./Api
+    environment:
+      - ConnectionString=Server=db;Port=3306;Database=DOCKER;Uid=root;AllowUserVariables=True;AllowZeroDateTime=True;Charset=utf8;Protocol=socket;SslMode=none;
+      - ASPNETCORE_ENVIRONMENT=Production
+    ports: 
+      - "5000:5000"
+      - "5001:5001"
+    depends_on:
+      - db
+    networks:
+    - api-db
+      
+networks:
+  api-db:
+    driver: bridge
